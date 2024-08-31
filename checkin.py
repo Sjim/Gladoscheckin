@@ -60,12 +60,13 @@ if __name__ == '__main__':
                 message_days = "无法获取剩余天数信息"
         else:
             email = ""
+            result = ""
             status = "签到请求url失败, 请检查..."
             message_days = "获取信息失败"
 
         # 推送内容
         sendContent += f"{'-'*30}\n\
-            参数：{status}\n\
+            参数：{result}\n\
             账号: {email}\n\
             签到情况: {status}\n\
             剩余天数: {message_days}\n"
