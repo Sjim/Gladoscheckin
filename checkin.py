@@ -1,6 +1,9 @@
 import requests
 import json
 import os
+
+from send_email import send
+
 # -------------------------------------------------------------------------------------------
 # github workflows
 # -------------------------------------------------------------------------------------------
@@ -51,37 +54,20 @@ if __name__ == '__main__':
             # 获取账号email
             email = result['data']['email']
 
-            if status == "Checkin! Get 1 Day":
-                success += 1
-                message_status = "签到成功，会员天数 + 1"
-            elif status == "Please Try Tomorrow":
-                message_status = "今日已签到"
-            else:
-                fail += 1
-                message_status = "签到失败，请检查..."
-
             if leftdays is not None:
                 message_days = f"{leftdays} 天"
             else:
                 message_days = "无法获取剩余天数信息"
         else:
             email = ""
-            message_status = "签到请求url失败, 请检查..."
+            status = "签到请求url失败, 请检查..."
             message_days = "获取信息失败"
 
         # 推送内容
         sendContent += f"{'-'*30}\n\
             账号: {email}\n\
-            签到情况: {message_status}\n\
+            签到情况: {status}\n\
             剩余天数: {message_days}\n"
-        
-        if cookie == cookies[-1]:
-            sendContent += '-' * 30
+        send(sendContent)
         
      # --------------------------------------------------------------------------------------------------------#
-    print("sendContent:" + "\n", sendContent)
-    if sckey != "":
-        title += f': 成功{success},失败{fail}'
-        plusurl = f"http://www.pushplus.plus/send?token={sckey}&title={title}&content={sendContent}"
-        r = requests.get(plusurl)
-        print(r.status_code)
