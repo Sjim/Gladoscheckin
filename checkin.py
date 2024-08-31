@@ -65,6 +65,7 @@ if __name__ == '__main__':
 
         # 推送内容
         sendContent += f"{'-'*30}\n\
+            参数：{status}\n\
             账号: {email}\n\
             签到情况: {status}\n\
             剩余天数: {message_days}\n"
